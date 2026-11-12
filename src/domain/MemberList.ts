@@ -1,4 +1,4 @@
-import type { Member } from "./Member.ts";
+import { Member } from "./Member.ts";
 
 export class MemberList {
   #items: Member[] = [];
@@ -15,6 +15,13 @@ export class MemberList {
 
   updateFee(_documentId: string, _fee: number): void {
     // TODO: cambiar la cuota del socio con ese documento
+    for (const member of this.#items) {
+      if (member.documentId === _documentId) {
+        member.monthlyFee = _fee;
+        return;
+      }
+    }
+    throw new Error("No existe un socio con ese documento.");
   }
 
   getItems(): readonly Member[] {
@@ -26,7 +33,15 @@ export class MemberList {
   }
 
   totalDiscounted(): number {
-    // TODO: sumar las cuotas de los socios con el descuento aplicado
-    return 0;
+    let total: number = 0;
+    for (const member of this.#items) {
+      if (member.discount > 0) {
+        total +=
+          member.monthlyFee - (member.discount / 100) * member.monthlyFee;
+      } else {
+        total += member.monthlyFee;
+      }
+    }
+    return total;
   }
 }

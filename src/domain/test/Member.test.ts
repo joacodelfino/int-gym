@@ -50,6 +50,23 @@ describe("Member", () => {
     expect(() => (member.monthlyFee = Number.NaN)).toThrow();
   });
 
+  test("discount is negative", () => {
+    expect(() => (member.discount = -1)).toThrow();
+  });
+
+  test("discount is positive", () => {
+    member.discount = 10;
+    expect(member.discount).toBe(10);
+  });
+
+  test("show the member as text with a discount", () => {
+    member.discount = 10;
+
+    expect(member.toString()).toBe(
+      "Ana Pérez (doc. 12345678) - Plan Completo - $1500 - 10%",
+    );
+  });
+
   test("show the member as text", () => {
     expect(member.toString()).toBe(
       "Ana Pérez (doc. 12345678) - Plan Completo - $1500",
