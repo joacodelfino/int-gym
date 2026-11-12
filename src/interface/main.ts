@@ -34,11 +34,16 @@ const inpTotalFees = document.getElementById(
   "inp-total-fees",
 ) as HTMLInputElement | null;
 
+const inpDiscount = document.getElementById(
+  "inp-discount",
+) as HTMLInputElement | null;
+
 function clearInputs(): void {
-  if (inpName && inpDocument && inpFee) {
+  if (inpName && inpDocument && inpFee && inpDiscount) {
     inpName.value = "";
     inpDocument.value = "";
     inpFee.value = "";
+    inpDiscount.value = "";
   }
 }
 
@@ -73,7 +78,14 @@ function createFeeEditor(member: Member): HTMLDivElement {
   button.className = "btn btn-outline-secondary";
   button.textContent = "Guardar cuota";
   button.addEventListener("click", () => {
-    // TODO: editar la cuota del socio con el valor de input
+    try {
+      memberList.updateFee(member.documentId, Number(input.value));
+      input.classList.remove("is-invalid");
+      updateList();
+      updateTotals();
+    } catch {
+      input.classList.add("is-invalid");
+    }
   });
   group.append(input, button);
   return group;
@@ -97,7 +109,11 @@ function createCard(member: Member): HTMLDivElement {
   if (member.discount > 0) {
     lines.push(`Descuento: ${member.discount}%`);
   }
-  body.append(title, ...lines.map(createText));
+  const badge = document.createElement("span");
+  badge.className = "badge text-bg-primary";
+  badge.textContent = PLAN_LABELS[member.plan];
+
+  body.append(title, badge, ...lines.map(createText));
   const footer = document.createElement("div");
   footer.className = "card-footer bg-transparent";
   footer.append(createFeeEditor(member));

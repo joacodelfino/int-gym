@@ -42,6 +42,7 @@ describe("MemberList", () => {
   });
 
   test("update fee and not exists the member", () => {
+    list.add(member);
     expect(() => list.updateFee("999999", 10)).toThrow();
   });
 
@@ -54,6 +55,7 @@ describe("MemberList", () => {
   test("total discounted in a empty list", () => {
     expect(list.totalDiscounted()).toBe(0);
   });
+
   test("total fee without discount", () => {
     list.add(member);
 
