@@ -77,11 +77,16 @@ export class Member {
     return this._discount;
   }
 
-  set discount(_value: number) {
-    // TODO: validar y guardar el descuento
+  set discount(value: number) {
+    if (!Number.isInteger(value) || value < 0 || value > 100) {
+      throw new Error("El descuento debe ser un entero entre 0 y 100.");
+    }
+    this._discount = value;
   }
 
   toString(): string {
-    return `${this.name} (doc. ${this.documentId}) - Plan ${PLAN_LABELS[this.plan]} - $${this.monthlyFee}`;
+    const discount = this.discount > 0 ? ` - ${this.discount}%` : "";
+
+    return `${this.name} (doc. ${this.documentId}) - Plan ${PLAN_LABELS[this.plan]} - $${this.monthlyFee}${discount}`;
   }
 }

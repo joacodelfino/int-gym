@@ -59,6 +59,24 @@ describe("Member", () => {
     expect(member.discount).toBe(10);
   });
 
+  test("discount defaults to zero", () => {
+    expect(member.discount).toBe(0);
+  });
+
+  test.each([0, 100])("accept a discount of %s", (discount) => {
+    member.discount = discount;
+    expect(member.discount).toBe(discount);
+  });
+
+  test.each([101, 1.5, Number.NaN, Infinity, -Infinity])(
+    "reject an invalid discount of %s without changing the current value",
+    (discount) => {
+      member.discount = 10;
+      expect(() => (member.discount = discount)).toThrow();
+      expect(member.discount).toBe(10);
+    },
+  );
+
   test("show the member as text with a discount", () => {
     member.discount = 10;
 
