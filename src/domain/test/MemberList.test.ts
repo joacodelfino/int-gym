@@ -57,8 +57,8 @@ describe("MemberList", () => {
     list.add(member2);
     // El resultado correcto es 1500 + (1 - 1 * 10 / 100) = 1500.9.
     // Para otros cálculos decimales, toBeCloseTo permite tolerar diferencias de precisión.
-    expect(list.totalDiscounted()).toBe(1500.9)
-  })
+    expect(list.totalDiscounted()).toBe(1500.9);
+  });
 
   test("update fee of a member", () => {
     // El socio buscado queda segundo para comprobar que la búsqueda avance en la lista.
@@ -73,6 +73,8 @@ describe("MemberList", () => {
   test("update fee of a member", () => {
     // La lista está vacía: el documento no existe y la actualización debe lanzar un error.
     // Este test podría llamarse "reject update for a missing member" para distinguirlo.
-    expect(() => {list.updateFee("2233232", 20)}).toThrow();
+    expect(() => {
+      list.updateFee("2233232", 20);
+    }).toThrow();
   });
 });

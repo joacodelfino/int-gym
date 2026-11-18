@@ -21,7 +21,6 @@ describe("Member", () => {
       monthlyFee: 1500,
       discount: 0,
     });
-
   });
 
   test("store name", () => {

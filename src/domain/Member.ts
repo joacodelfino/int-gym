@@ -80,18 +80,18 @@ export class Member {
   }
 
   set discount(value: number) {
-  if (!Number.isFinite(value) || value < 0 || value > 100) {
-    throw new Error("Ingrese un número válido");
+    if (!Number.isFinite(value) || value < 0 || value > 100) {
+      throw new Error("Ingrese un número válido");
+    }
+
+    this._discount = value;
   }
 
-  this._discount = value;
-}
-
   toString(): string {
-    if(this._discount > 0) {
-        return `${this.name} (doc. ${this.documentId}) - Plan ${PLAN_LABELS[this.plan]} - $${this.monthlyFee} - Descuento ${this.discount}`;
-    }else {
-        return `${this.name} (doc. ${this.documentId}) - Plan ${PLAN_LABELS[this.plan]} - $${this.monthlyFee}`;      
+    if (this._discount > 0) {
+      return `${this.name} (doc. ${this.documentId}) - Plan ${PLAN_LABELS[this.plan]} - $${this.monthlyFee} - Descuento ${this.discount}`;
+    } else {
+      return `${this.name} (doc. ${this.documentId}) - Plan ${PLAN_LABELS[this.plan]} - $${this.monthlyFee}`;
     }
   }
 }

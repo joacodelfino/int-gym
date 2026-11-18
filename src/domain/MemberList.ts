@@ -18,8 +18,8 @@ export class MemberList {
 
   updateFee(_documentId: string, _fee: number): number {
     // Buscamos por documento; los socios anteriores al buscado se saltean.
-    for(const member of this.#items){
-      if(member.documentId === _documentId){
+    for (const member of this.#items) {
+      if (member.documentId === _documentId) {
         // La asignación llama al setter de Member, que valida la nueva cuota.
         // Si es inválida, el setter lanza el error y no llegamos al return.
         member.monthlyFee = _fee;
@@ -46,9 +46,12 @@ export class MemberList {
     // Dividimos discount entre 100 para convertir el porcentaje en una proporción.
     // La fórmula correcta es cuota - (cuota * descuento / 100).
     let total: number = 0;
-    for(let i = 0; i < this.#items.length; i++){
+    for (let i = 0; i < this.#items.length; i++) {
       // Una cuota de 1 con descuento del 10 % aporta 0.9 al total.
-      total += this.#items[i].monthlyFee - ( this.#items[i].monthlyFee * this.#items[i].discount / 100);    }
+      total +=
+        this.#items[i].monthlyFee -
+        (this.#items[i].monthlyFee * this.#items[i].discount) / 100;
+    }
     return total;
   }
 }

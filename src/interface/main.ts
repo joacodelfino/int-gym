@@ -9,6 +9,12 @@ const inpName = document.getElementById("inp-name") as HTMLInputElement | null;
 const inpDocument = document.getElementById(
   "inp-document",
 ) as HTMLInputElement | null;
+const inpDescuento = document.getElementById(
+  "inp-descuento",
+) as HTMLInputElement | null;
+const inpTotalDescuento = document.getElementById(
+  "inp-total-descuento",
+) as HTMLInputElement | null;
 const selPlan = document.getElementById("sel-plan") as HTMLSelectElement | null;
 const inpFee = document.getElementById("inp-fee") as HTMLInputElement | null;
 const btnAdd = document.getElementById("btn-add") as HTMLButtonElement | null;
@@ -74,6 +80,9 @@ function createFeeEditor(member: Member): HTMLDivElement {
   button.textContent = "Guardar cuota";
   button.addEventListener("click", () => {
     // TODO: editar la cuota del socio con el valor de input
+    member.monthlyFee = Number(input.value);
+    updateList();
+    updateTotals();
   });
   group.append(input, button);
   return group;
@@ -89,15 +98,18 @@ function createCard(member: Member): HTMLDivElement {
   const title = document.createElement("h5");
   title.className = "card-title";
   title.textContent = member.name;
+  const badge = document.createElement("span");
+  badge.className = "badge bg-primary";
+  badge.textContent = PLAN_LABELS[member.plan];
+
   const lines = [
     `Documento: ${member.documentId}`,
-    `Plan: ${PLAN_LABELS[member.plan]}`,
     `Cuota mensual: $${member.monthlyFee}`,
   ];
   if (member.discount > 0) {
     lines.push(`Descuento: ${member.discount}%`);
   }
-  body.append(title, ...lines.map(createText));
+  body.append(title, badge, ...lines.map(createText));
   const footer = document.createElement("div");
   footer.className = "card-footer bg-transparent";
   footer.append(createFeeEditor(member));
@@ -116,9 +128,10 @@ function updateList(): void {
 }
 
 function updateTotals(): void {
-  if (inpTotalMembers && inpTotalFees) {
+  if (inpTotalMembers && inpTotalFees && inpTotalDescuento) {
     inpTotalMembers.value = String(memberList.getItems().length);
     inpTotalFees.value = String(memberList.totalFees());
+    inpTotalDescuento.value = String(memberList.totalDiscounted());
   }
 }
 
@@ -134,7 +147,7 @@ loadMockData();
 updateList();
 updateTotals();
 
-if (btnAdd && inpName && inpDocument && selPlan && inpFee) {
+if (btnAdd && inpName && inpDocument && selPlan && inpFee && inpDescuento) {
   btnAdd.addEventListener("click", () => {
     try {
       const member = new Member({
@@ -142,6 +155,7 @@ if (btnAdd && inpName && inpDocument && selPlan && inpFee) {
         documentId: inpDocument.value,
         plan: selPlan.value as Plan,
         monthlyFee: Number(inpFee.value),
+        discount: Number(inpDescuento.value),
       });
       memberList.add(member);
       hideError();

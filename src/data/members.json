@@ -10,7 +10,8 @@
     "name": "Bruno Silva",
     "documentId": "38765432",
     "plan": "basic",
-    "monthlyFee": 1200
+    "monthlyFee": 1200,
+    "discount": 10
   },
   {
     "name": "Carla Núñez",
@@ -23,12 +24,14 @@
     "name": "Diego Rodríguez",
     "documentId": "47654321",
     "plan": "full",
-    "monthlyFee": 1800
+    "monthlyFee": 1800,
+    "discount": 10
   },
   {
     "name": "Lucía Fernández",
     "documentId": "50123456",
     "plan": "basic",
-    "monthlyFee": 1200
+    "monthlyFee": 1200,
+    "discount": 10
   }
 ]
